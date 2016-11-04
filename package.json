@@ -1,0 +1,24 @@
+{
+  "name": "showdoc",
+  "version": "0.0.1",
+  "description": "simple docgen",
+  "main": "./bin/showdoc",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --timeout 120000 --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fabiorogeriosj/showdoc.git"
+  },
+  "author": "Fabio Rogerio SJ <fabio.rogerio.sj@gmail.com> (http://fabiorogeriosj.com.br)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fabiorogeriosj/showdoc/issues"
+  },
+  "homepage": "https://github.com/fabiorogeriosj/showdoc#readme",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "markdown": "^0.5.0",
+    "minimist": "^1.2.0"
+  }
+}
