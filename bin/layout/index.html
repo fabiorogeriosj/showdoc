@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <title>ShowDoc</title>
+    <link rel="SHORTCUT ICON" href="favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,800" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <link rel="stylesheet" href="lib/devices.min.css" type="text/css">
+    <script type="text/javascript" src="lib/codemirror.js"></script>
+    <script type="text/javascript" src="lib/xml/xml.js"></script>
+    <script type="text/javascript" src="lib/javascript/javascript.js"></script>
+    <script type="text/javascript" src="lib/css/css.js"></script>
+    <script type="text/javascript" src="js/docs.js"></script>
+</head>
+<body>
+  <div class="menu-top">
+      <img src="img/logo_white.png" />
+      <div class="right">
+        <ul>
+          <!--SHOWDOC:init-top-->
+          <a href="#SHOWDOC_GROUP_ID"><li>SHOWDOC_GROUP_TITLE</li></a>
+          <!--SHOWDOC:end-top-->
+        </ul>
+      </div>
+  </div>
+  <div class="docs-content">
+    <div class="doc-menu">
+      <div class="doc-search">
+        <input type="search" placeholder="Search...">
+      </div>
+      <div class="groups">
+
+        <!--SHOWDOC:init-group-menu-->
+        <div id="options-SHOWDOC_GROUP_ID" class="options">
+          <a href="#SHOWDOC_GROUP_ID"><div class="option">SHOWDOC_GROUP_TITLE</div></a>
+          <div class="itens">
+            <!--SHOWDOC:init-group-menu-item-->
+            <a href="#SHOWDOC_GROUP_ITEM_ID"><div class="item-menu">SHOWDOC_ITEM_TITLE</div></a>
+            <!--SHOWDOC:end-group-menu-item-->
+          </div>
+        </div>
+        <!--SHOWDOC:end-group-menu-->
+
+      </div>
+    </div>
+
+    <div class="doc-content" id="doc-content">
+
+      <!--SHOWDOC:init-group-content-->
+      <a class="anchor" name="SHOWDOC_GROUP_ITEM_ID"></a>
+      <div option="SHOWDOC_GROUP_ID" item="SHOWDOC_ITEM_TITLE" class="doc-content-item">
+        SHOWDOC_ITEM_CONTENT
+      </div>
+      <!--SHOWDOC:end-group-content-->
+
+    </div>
+  </div>
+
+</body>
+</html>
