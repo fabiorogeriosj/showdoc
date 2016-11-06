@@ -61,21 +61,26 @@ var activeOptions = function(){
 }
 var basePreview = '<link rel="stylesheet" href="/icons/materialdesign.css"><link rel="stylesheet" href="/lib/mockapp-colors.css"><link rel="stylesheet" href="/lib/mockapp.css">';
 var bindPreview = function(){
-  var elements = document.querySelectorAll(".preview");
+  var elements = document.querySelectorAll(".box-code");
   [].forEach.call(elements, function(el) {
     var code = el.querySelectorAll("textarea");
     var codeHTML = code[0].value;
-    var iframePreview = el.querySelectorAll("iframe");
-    iframePreview = iframePreview[0];
-    iframePreview.contentDocument.body.innerHTML = basePreview + codeHTML;
-    el.querySelectorAll("button")[0].addEventListener("click", function(){
-      var newCodeHTML = this.parentElement.parentElement.querySelectorAll("textarea")[0].value
-      iframePreview.contentDocument.body.innerHTML = basePreview + newCodeHTML;
-    }, false);
+    var iframePreview = el.querySelector("iframe");
+    if(iframePreview){
+      iframePreview.contentDocument.body.innerHTML = basePreview + codeHTML;
+      var bt = el.querySelector(".button-live-code");
+      if(bt){
+        el.querySelector(".button-live-code").addEventListener("click", function(){
+          var newCodeHTML = this.parentElement.parentElement.querySelectorAll("textarea")[0].value
+          iframePreview.contentDocument.body.innerHTML = basePreview + newCodeHTML;
+        }, false);
+      }
+    }
   });
 }
 
 window.onload = function(){
+  previewMobile();
   bindPreview();
   activeOptions();
   if(location.hash === ""){
@@ -89,14 +94,19 @@ window.onload = function(){
     var mycm = CodeMirror.fromTextArea(el, {
       readOnly: true
     });
+    setTimeout(function(){
+      var sizeCode = el.parentElement.offsetHeight;
+      var elMobile = el.parentElement.querySelector(".box-mobile")
+      if(elMobile){
+          elMobile.style.height=sizeCode+69+"px";
+      }
+    },1)
     mycm.on('change',function(cMirror){
       el.value = cMirror.getValue();
       var asizeCode = el.parentElement.offsetHeight;
       el.parentElement.parentElement.querySelectorAll(".box-mobile")[0].style.height=asizeCode+"px";
     });
   });
-
-  previewMobile();
 }
 
 function previewMobile(){

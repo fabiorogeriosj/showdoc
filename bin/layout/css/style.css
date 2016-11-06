@@ -365,6 +365,9 @@ iframe {
   padding: 6px;
   border-radius: 2px 2px 0 0;
 }
+.box-code iframe {
+  background-color: #fff;
+}
 .box-code .actions {
   text-align: right;
 }
