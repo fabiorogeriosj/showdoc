@@ -33,6 +33,12 @@ module.exports = {
       if(commands.js){
         config.js = commands.js;
       }
+      if(commands.title){
+        config.title = commands.title;
+      }
+      if(commands.logo){
+        config.logo = commands.logo;
+      }
       if(!config.path){
         config.path = ".";
       }
@@ -87,6 +93,12 @@ module.exports = {
             }
             if(config.js){
               layout = self.addCustomJS(layout, config.js);
+            }
+            if(config.title){
+              layout = self.changeTitlePage(layout, config.title);
+            }
+            if(config.logo){
+              layout = self.changeLogoPage(layout, config.logo);
             }
 
             fs.writeFileSync(__dirname+"/layout_bind/index.html", layout);
@@ -209,6 +221,14 @@ module.exports = {
     },
     addCustomJS: function(layout, js){
       layout = layout.replace('<script type="text/javascript" src="js/docs.js"></script>', '<script type="text/javascript" src="js/docs.js"></script>\n<script type="text/javascript" src="'+js+'"></script>');
+      return layout;
+    },
+    changeTitlePage: function(layout, title){
+      layout = layout.replace('<title>ShowDoc</title>', '<title>'+title+'</title>');
+      return layout;
+    },
+    changeLogoPage: function(layout, logo){
+      layout = layout.replace('<img src="img/logo_white.png" />', '<img src="'+logo+'" />');
       return layout;
     }
 }

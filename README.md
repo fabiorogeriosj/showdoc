@@ -63,6 +63,7 @@ See the showdoc in action [here](https://github.com/fabiorogeriosj/mockapp/tree/
 
 ### Optional Parameters:
 
+- `--title [TITLE PAGE]`:  Title header HTML file
 - `--path [FOLDER]`:  Folder for find all MD files with PARAMETER TAGS
 - `--dest [FOLDER]`:  Output folder
 - `--logo [SRC]`:  URL source image the logo header html

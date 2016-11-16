@@ -217,7 +217,7 @@ body, html {
 .menu-top ul li {
   display: inline-block;
   padding-top: 14px;
-  border-top: 5px solid #2e303d;
+  border-top: 5px solid rgba(0,0,0,0);
 }
 .menu-top a {
   color: rgba(255, 255, 255, 0.6);
