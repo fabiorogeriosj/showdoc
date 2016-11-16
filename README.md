@@ -57,6 +57,9 @@ Let's illustrate that the above files are in the docs folder, so the command wou
 showdoc generate --path ./docs
 ```
 
+See the showdoc in action [here](https://github.com/fabiorogeriosj/mockapp/tree/master/docs)
+
+[!example.png]
 
 
 ### License
