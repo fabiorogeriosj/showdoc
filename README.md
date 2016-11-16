@@ -59,7 +59,15 @@ showdoc generate --path ./docs
 
 See the showdoc in action [here](https://github.com/fabiorogeriosj/mockapp/tree/master/docs)
 
-[!example.png]
+![Example](example.png)
+
+### Optional Parameters:
+
+- `--path [FOLDER]`:  Folder for find all MD files with PARAMETER TAGS
+- `--dest [FOLDER]`:  Output folder
+- `--logo [SRC]`:  URL source image the logo header html
+- `--style [SRC]`:  URL source custom css
+- `--js [SRC]`:  URL source custom script JavaScript
 
 
 ### License
