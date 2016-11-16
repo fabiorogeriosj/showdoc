@@ -1,6 +1,6 @@
 {
   "name": "showdoc",
-  "version": "0.0.1",
+  "version": "0.1.11",
   "description": "simple docgen",
   "main": "./bin/showdoc",
   "scripts": {
@@ -20,6 +20,7 @@
     "colors": "^1.1.2",
     "fs-extra": "^1.0.0",
     "glob": "^7.1.1",
+    "jsonfile": "^2.4.0",
     "markdown": "^0.5.0",
     "minimist": "^1.2.0"
   }

@@ -3,19 +3,50 @@ var colors = require('colors');
 var glob = require("glob");
 var markdown = require( "markdown" ).markdown;
 var util = require("./util");
+var jsonfile = require('jsonfile');
+jsonfile.spaces = 4;
 
 module.exports = {
     run : function (){
       var self = this;
       console.log("Generating...".green);
       //markdown.toHTML();
-      var path = ".";
-      var dest = "./showdoc";
-      if(commands._[1] && commands._[1] != "."){
-        path = commands._[1];
+      var configShowDoc = "./showdoc.json";
+      var config = {};
+      if(!util.fileExists(configShowDoc)){
+        jsonfile.writeFileSync(configShowDoc, config);
+      } else {
+        config = jsonfile.readFileSync(configShowDoc);
       }
-      if(commands._[2] && commands._[2] != "."){
-        dest = commands._[2];
+      if(commands.path){
+        config.path = commands.path;
+      }
+      if(commands.dest){
+        config.dest = commands.dest
+      }
+      if(commands.previewMobile){
+         config.previewMobile = true;
+      }
+      if(commands.style){
+        config.style = commands.style;
+      }
+      if(commands.js){
+        config.js = commands.js;
+      }
+      if(!config.path){
+        config.path = ".";
+      }
+      if(!config.dest){
+        config.dest = "./showdoc";
+      }
+      jsonfile.writeFileSync(configShowDoc, config);
+
+      //valid config
+      if(config.dest){
+        dest = config.dest;
+      }
+      if(config.path){
+        path = config.path;
       }
 
       glob(path + "/**/*.md", {}, function (er, files) {
@@ -24,35 +55,53 @@ module.exports = {
           console.log("");
           console.log(er);
         } else {
-          util.createIfNotExistDirectory(dest);
-          var docHtml = []
-          for(i in files){
-            var contents = fs.readFileSync(files[i]).toString();
-            var index = self.getIndex(contents);
-            if(index >= 0){
-                var idDoc = self.getId(contents);
-                var title = self.getTitle(contents);
-                var group = self.getGroup(contents);
-                docHtml[index] = {
-                  id: idDoc,
-                  title: title,
-                  content: markdown.toHTML(contents),
-                  group: group
-                }
+          util.deleteRecursive(dest, function(){
+            var docHtml = []
+            for(i in files){
+              var contents = fs.readFileSync(files[i]).toString();
+              var index = self.getIndex(contents);
+              if(index >= 0){
+                  var idDoc = self.getId(contents);
+                  var title = self.getTitle(contents);
+                  var group = self.getGroup(contents);
+                  docHtml[index] = {
+                    id: idDoc,
+                    title: title,
+                    content: markdown.toHTML(contents),
+                    group: group
+                  }
+              }
             }
-          }
-          fs.copySync(__dirname+"/layout", __dirname+"/layout_bind");
-          var layout = fs.readFileSync(__dirname+"/layout_bind/index.html").toString();
-          layout = self.createMenuTop(docHtml, layout);
-          layout = self.createMenuLeft(docHtml, layout);
-          layout = self.createContent(docHtml, layout);
+            fs.copySync(__dirname+"/layout", __dirname+"/layout_bind");
+            var layout = fs.readFileSync(__dirname+"/layout_bind/index.html").toString();
+            layout = self.createMenuTop(docHtml, layout);
+            layout = self.createMenuLeft(docHtml, layout);
+            layout = self.createContent(docHtml, layout);
 
-          layout = self.parseCodeToComponent(layout);
+            layout = self.parseCodeToComponent(layout);
+            if(config.previewMobile){
+              layout = self.enablePreviewMobile(layout);
+            }
+            if(config.style){
+              layout = self.addCustomStyle(layout, config.style);
+            }
+            if(config.js){
+              layout = self.addCustomJS(layout, config.js);
+            }
 
-          fs.writeFileSync(__dirname+"/layout_bind/index.html", layout);
-          var msgCool = "See your docs in "+dest;
-          console.log("Success!".green);
-          console.log(msgCool.yellow);
+            fs.writeFileSync(__dirname+"/layout_bind/index.html", layout);
+            fs.rename(__dirname+"/layout_bind", dest, function (err) {
+              if (err){
+                console.log("Ops! It is not good :(".red);
+                console.log(err);
+              } else {
+                var msgCool = "See your docs in "+dest;
+                console.log("Success!".green);
+                console.log(msgCool.yellow);
+              }
+            });
+          });
+
         }
       })
 
@@ -148,6 +197,18 @@ module.exports = {
       layout = layout.replace(/<code>/gi, '<div class="box-code"><h2>Terminal</h2><textarea class="code-bind">');
       layout = layout.replace(new RegExp("</code>", 'g'), "</textarea></div>");
       layout = layout.replace(new RegExp("\n</textarea></div>", 'g'), "</textarea></div>");
+      return layout;
+    },
+    enablePreviewMobile: function(layout){
+      layout = layout.replace('<meta name="viewport" content="width=device-width, initial-scale=1.0">', '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<script type="text/javascript">var usePreviewMobile=true;</script>');
+      return layout;
+    },
+    addCustomStyle: function(layout, style){
+      layout = layout.replace('<link rel="stylesheet" href="css/style.css"/>', '<link rel="stylesheet" href="css/style.css"/>\n<link rel="stylesheet" href="'+style+'"/>');
+      return layout;
+    },
+    addCustomJS: function(layout, js){
+      layout = layout.replace('<script type="text/javascript" src="js/docs.js"></script>', '<script type="text/javascript" src="js/docs.js"></script>\n<script type="text/javascript" src="'+js+'"></script>');
       return layout;
     }
 }

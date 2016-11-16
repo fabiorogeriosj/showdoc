@@ -110,16 +110,18 @@ window.onload = function(){
 }
 
 function previewMobile(){
-  var boxs = document.querySelectorAll(".box-code");
-  [].forEach.call(boxs, function(el) {
-    if(el.querySelector("h2").innerText == "HTML"){
-      var elNew = document.createElement('div');
-      elNew.setAttribute("class", "box-mobile");
-      elNew.innerHTML = '<div class="marvel-device s5 white"><div class="top-bar"></div><div class="sleep"></div><div class="camera"></div><div class="sensor"></div><div class="speaker"></div><div class="screen"><iframe width="100%" height="100%;"></iframe></div><div class="home"></div></div>';
-      insertAfter(elNew, el.querySelector("h2"));
-      el.setAttribute("class", el.getAttribute("class") + " margin-top-mobile")
-    }
-  });
+  if(window.usePreviewMobile){
+    var boxs = document.querySelectorAll(".box-code");
+    [].forEach.call(boxs, function(el) {
+      if(el.querySelector("h2").innerText == "HTML"){
+        var elNew = document.createElement('div');
+        elNew.setAttribute("class", "box-mobile");
+        elNew.innerHTML = '<div class="marvel-device s5 white"><div class="top-bar"></div><div class="sleep"></div><div class="camera"></div><div class="sensor"></div><div class="speaker"></div><div class="screen"><iframe width="100%" height="100%;"></iframe></div><div class="home"></div></div>';
+        insertAfter(elNew, el.querySelector("h2"));
+        el.setAttribute("class", el.getAttribute("class") + " margin-top-mobile")
+      }
+    });
+  }
 }
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
