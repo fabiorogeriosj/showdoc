@@ -1,20 +1,20 @@
 
-# showdoc
-================
+# Showdoc
+-------
 
-Simple documentation generator for static server with, or no, live code!
+Simple documentation generator from MD file to HTML for static server with, or no, live code!
 
 [![npm Package](https://img.shields.io/npm/v/showdoc.svg?style=flat-square)](https://www.npmjs.org/package/showdoc)
 
 ## Installation
----
+-------
 
 ```
 npm install showdoc -g
 ```
 
 ## Using
----
+-------
 
 ### Generator
 
