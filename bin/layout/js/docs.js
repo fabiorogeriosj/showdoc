@@ -59,8 +59,18 @@ var activeOptions = function(){
       }
   }
 }
-var basePreview = '<link rel="stylesheet" href="/icons/materialdesign.css"><link rel="stylesheet" href="/lib/mockapp-colors.css"><link rel="stylesheet" href="/lib/mockapp.css">';
+var basePreview = '';
 var bindPreview = function(){
+  if(assets){
+    var ass = assets.split(",");
+    for(i in ass){
+      if(ass[i].indexOf(".css")){
+        basePreview += '<link rel="stylesheet" href="'+ass[i]+'">';
+      } else if(ass[i].indexOf(".js")){
+        basePreview += '<script type="text/javascript" src="'+ass[i]+'"></script>';
+      }
+    }
+  }
   var elements = document.querySelectorAll(".box-code");
   [].forEach.call(elements, function(el) {
     var code = el.querySelectorAll("textarea");
@@ -113,7 +123,7 @@ function previewMobile(){
   if(window.usePreviewMobile){
     var boxs = document.querySelectorAll(".box-code");
     [].forEach.call(boxs, function(el) {
-      if(el.querySelector("h2").innerText == "HTML"){
+      if(el.querySelector("h2").innerText == "HTML" && el.className.indexOf("--nolive") < 0){
         var elNew = document.createElement('div');
         elNew.setAttribute("class", "box-mobile");
         elNew.innerHTML = '<div class="marvel-device s5 white"><div class="top-bar"></div><div class="sleep"></div><div class="camera"></div><div class="sensor"></div><div class="speaker"></div><div class="screen"><iframe width="100%" height="100%;"></iframe></div><div class="home"></div></div>';

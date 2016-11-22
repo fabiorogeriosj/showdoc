@@ -335,6 +335,12 @@ a {
   margin-top: 50px;
   overflow: hidden;
 }
+.doc-content h2 {
+  font-weight: 800;
+}
+.box-code h2 {
+  font-weight: 400;
+}
 iframe {
   border: none;
 }

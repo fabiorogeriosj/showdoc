@@ -39,6 +39,9 @@ module.exports = {
       if(commands.logo){
         config.logo = commands.logo;
       }
+      if(commands.assets){
+        config.assets = commands.assets;
+      }
       if(!config.path){
         config.path = ".";
       }
@@ -83,6 +86,7 @@ module.exports = {
             layout = self.createMenuTop(docHtml, layout);
             layout = self.createMenuLeft(docHtml, layout);
             layout = self.createContent(docHtml, layout);
+            layout = self.checkAndIncludeFile(layout);
 
             layout = self.parseCodeToComponent(layout);
             if(config.previewMobile){
@@ -99,6 +103,9 @@ module.exports = {
             }
             if(config.logo){
               layout = self.changeLogoPage(layout, config.logo);
+            }
+            if(config.assets){
+              layout = self.addAssets(layout, config.assets);
             }
 
             fs.writeFileSync(__dirname+"/layout_bind/index.html", layout);
@@ -203,6 +210,7 @@ module.exports = {
       return layout.replace(template, bind);
     },
     parseCodeToComponent: function(layout){
+      layout = layout.replace(/<code> html--nolive/gi, '<div class="box-code --nolive"><h2>HTML</h2><textarea class="code-bind">');
       layout = layout.replace(/<code> html/gi, '<div class="box-code"><h2>HTML</h2><textarea class="code-bind">');
       layout = layout.replace(/<code> javascript/gi, '<div class="box-code"><h2>JavaScript</h2><textarea class="code-bind">');
       layout = layout.replace(/<code> css/gi, '<div class="box-code"><h2>CSS</h2><textarea class="code-bind">');
@@ -230,5 +238,20 @@ module.exports = {
     changeLogoPage: function(layout, logo){
       layout = layout.replace('<img src="img/logo_white.png" />', '<img src="'+logo+'" />');
       return layout;
+    },
+    addAssets: function(layout, assets){
+      layout = layout.replace('<meta name="viewport" content="width=device-width, initial-scale=1.0">', '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<script type="text/javascript">var assets="'+assets+'";</script>');
+      return layout;
+    },
+    checkAndIncludeFile: function(contents){
+      var includes = contents.split("{include=");
+      for(i in includes){
+        var html = includes[i].split('}')[0].toString();
+        if(html.indexOf(".html") >= 0){
+          var htmlInclude = fs.readFileSync(html).toString();
+          contents = contents.replace("{include="+html+"}", htmlInclude);
+        }
+      }
+      return contents;
     }
 }

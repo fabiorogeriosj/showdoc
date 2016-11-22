@@ -59,6 +59,32 @@ showdoc generate --path ./docs
 
 See the showdoc in action [here](https://github.com/fabiorogeriosj/mockapp/tree/master/docs)
 
+For generate with live code for mobile, run with paramter `--previewMobile`:
+
+```
+showdoc generate --path ./doc --previewMobile
+```
+
+#### Live code
+
+The live code need that yout set assets file inject in container to live. It can set parameter or se config file. See example:
+
+##### With parameter
+
+```
+showdoc generate --path ./doc --previewMobile --assets "../mockapp-baseapp/www/lib/mockapp-colors.css, ../mockapp-baseapp/www/lib/mockapp.css"
+```
+
+If you need the code not live, just add in code block tag `--nolive`:
+
+```
+''' html--nolive
+<h2 class="purple">Title example here</h2>
+'''
+```
+
+
+
 ![Example](example.png)
 
 ### Optional Parameters:
